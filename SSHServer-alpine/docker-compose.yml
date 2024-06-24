@@ -1,0 +1,13 @@
+version: '3'
+services:
+    ssh_server:
+        container_name: SSHServer
+        build:
+            context: .
+            args:
+              - USER=sybase
+              - PWD=tc12834843
+        volumes:
+            SSHServer/sshd_config:/etc/ssh/sshd_config
+        ports:
+            - "0.0.0.0:2222:22"

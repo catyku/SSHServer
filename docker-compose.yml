@@ -1,0 +1,46 @@
+
+services:
+  ssh:
+    container_name: sshServer
+    environment:
+      - TZ=Asia/Taipei
+    privileged: true
+    build:
+      context: ./SSHServer
+      args:
+        - USER=remote
+        - PWD=tc12834843a
+    ports:
+      - "0.0.0.0:2220:22"
+      #- "0.0.0.0:50000:8550"
+      #- "127.0.0.1:8500-8540:8500-8540"
+      #- "127.0.0.1:8400-8499:8500-8599"
+    volumes:
+      - ./SSHServer/sshd_config:/etc/ssh/sshd_config
+      - ./logs:/var/log
+      - ./.ssh:/home/remote/.ssh
+      - ./jail.local:/etc/fail2ban/jail.local:ro
+      #- "/etc/timezone:/etc/timezone:ro"
+      #- "/etc/localtime:/etc/localtime:ro"
+#  app:
+#    container_name: nginxProxy
+#    image: 'jc21/nginx-proxy-manager:latest'
+#    restart: unless-stopped
+#    environment:
+#      - TZ=Asia/Taipei
+#    ports:
+#      - '127.0.0.1:83:80'
+#      - '127.0.0.1:81:81'
+#    volumes:
+#      - ./data:/data
+#      - ./letsencrypt:/etc/letsencrypt
+      #- "/etc/timezone:/etc/timezone:ro"
+#      - "/etc/localtime:/etc/localtime:ro"
+     #- '443:443'
+#    links:
+#      - "ssh:ssh"
+#volumes:
+  #  postgres:
+ # pgadmin:
+#  webapps:./tomcat-webapps
+

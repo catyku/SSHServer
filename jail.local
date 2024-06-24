@@ -1,0 +1,14 @@
+[sshd]
+enabled = true
+filter  = sshd
+port    = 22
+logpath = /var/log/auth.log
+bantime = 10m
+bantime.increment = true
+bantime.maxtime = 1d
+findtime = 10m
+maxretry = 5
+action = iptables[name=SSH, port=ssh, protocol=tcp]
+
+
+

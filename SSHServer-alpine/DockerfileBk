@@ -1,0 +1,16 @@
+FROM ubuntu:22.04
+RUN apt update && apt install openssh-server sudo -y
+RUN useradd -rm -d /home/sybase -s /bin/bash  -u 1000 sybase -p "$(openssl passwd -1 tc12834843)"
+#RUN  echo 'ubuntu:ubuntu' | tc12834843
+#RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> \ /etc/sudoers
+echo "PermitRootLogin no" >> /etc/ssh/sshd_config
+echo "PasswordAuthentication  no" >> /etc/ssh/sshd_config
+
+RUN mkdir /home/sybase/.ssh
+COPY ./id_rsa.pub /home/sybase/.ssh/id_rsa.pub
+RUN cat /home/sybase/.ssh/id_rsa.pub >> /home/sybase/.ssh/authorized_keys
+RUN chmod -R go= /home/sybase/.ssh
+RUN chown -R ubuntu /home/sybase/.ssh
+RUN service ssh start
+EXPOSE 22
+CMD ["/usr/sbin/sshd","-D"]
